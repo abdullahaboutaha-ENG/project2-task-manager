@@ -1,16 +1,25 @@
 const taskList = document.getElementById("taskList");
 const taskForm = document.getElementById("taskForm");
 function loadTasks() {
-  taskList.innerHTML = "";
-  fetch("http://localhost:3000/api")
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(task => {
-        const li = document.createElement("li");
-        li.textContent = `${task.title} | Priority: ${task.priority} | Completed: ${task.completed}`;
-        taskList.appendChild(li);
-      });
-    });
+    taskList.innerHTML = "";
+    fetch("http://localhost:3000/api")
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(task => {
+                const li = document.createElement("li");
+                li.textContent = `${task.title} | Priority: ${task.priority} | Completed: ${task.completed}`;
+                const btn = document.createElement("button");
+                btn.textContent = "Delete";
+                btn.onclick = () => {
+                    fetch(`http://localhost:3000/api/${task.id}`, {
+                        method: "DELETE"
+                    })
+                    .then(() => loadTasks());
+                };
+                li.appendChild(btn);
+                taskList.appendChild(li);
+            });
+        });
 }
 taskForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -30,4 +39,4 @@ taskForm.addEventListener("submit", function (e) {
     });
 });
 loadTasks();
- 
+    
