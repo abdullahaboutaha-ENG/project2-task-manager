@@ -53,6 +53,20 @@ app.get("/api/:id", (req, res) => {
        res.json(row);
    });
 });
+app.delete("/api/:id", (req, res) => {
+   const id = req.params.id;
+   db.run("DELETE FROM Tasks WHERE id = ?", [id], function(err) {
+       if (err) {
+           res.status(500).json({ error: err.message });
+           return;
+       }
+       if (this.changes === 0) {
+           res.status(404).json({ error: "Record not found" });
+           return;
+       }
+       res.json({ message: "Task deleted successfully" });
+   });
+});
 // start server
 app.listen(3000, () => {
    console.log("Server running on http://localhost:3000");
