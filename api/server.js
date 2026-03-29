@@ -2,8 +2,11 @@ const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 const app = express();
+const path = require("path");
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, "../client")));
+ 
 // connect to database
 const db = new sqlite3.Database("tasks.db");
 // create table if not exists
