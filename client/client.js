@@ -38,5 +38,12 @@ taskForm.addEventListener("submit", function (e) {
       loadTasks();
     });
 });
+const deleteAllBtn = document.getElementById("deleteAll");
+deleteAllBtn.onclick = () => {
+   fetch("http://localhost:3000/api", {
+       method: "DELETE"
+   })
+   .then(() => loadTasks());
+};
 loadTasks();
     
