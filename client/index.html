@@ -3,18 +3,72 @@
 <head>
 <meta charset="UTF-8" />
 <title>Task Manager</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        text-align: center;
+    }
+    form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    input {
+        padding: 8px;
+        flex: 1;
+    }
+    button {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        background: #fafafa;
+        margin-bottom: 8px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    li button {
+        margin-left: 10px;
+    }
+    #deleteAll {
+        width: 100%;
+        margin-top: 10px;
+        background-color: red;
+        color: white;
+        border: none;
+    }
+</style>
+ 
 </head>
 <body>
+<div class="container">
 <h1>Task Manager</h1>
-<ul id="taskList"></ul>
 <form id="taskForm">
-    <button id="deleteAll">Delete All Tasks</button>
-
-<input type="text" id="title" placeholder="Task title" required>
-<input type="number" id="priority" placeholder="Priority" required>
+<input id="title" placeholder="Task title" required>
+<input id="priority" type="number" placeholder="Priority" required>
 <button type="submit">Add Task</button>
 </form>
 <ul id="taskList"></ul>
+<button id="deleteAll">Delete All Tasks</button>
+</div>
 <script src="client.js"></script>
 </body>
 </html>
