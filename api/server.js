@@ -117,6 +117,39 @@ app.put("/api/:id", (req, res) => {
         }
     );
 });
+app.put("/api", (req, res) => {
+    const tasks = req.body;
+    if (!Array.isArray(tasks)) {
+        res.status(400).json({ error: "Body must be an array" });
+        return;
+    }
+    db.serialize(() => {
+        db.run("DELETE FROM Tasks", [], function(err) {
+            if (err) {
+                res.status(500).json({ error: err.message });
+                return;
+            }
+            const stmt = db.prepare(
+                "INSERT INTO Tasks (title, priority, completed) VALUES (?, ?, ?)"
+            );
+            for (const task of tasks) {
+                stmt.run([
+                    task.title,
+                    task.priority,
+                    task.completed
+                ]);
+            }
+            stmt.finalize((err) => {
+                if (err) {
+                    res.status(500).json({ error: err.message });
+                    return;
+                }
+                res.json({ status: "Collection replaced" });
+            });
+        });
+    });
+});
+ 
 // start server
 app.listen(3000, () => {
    console.log("Server running on http://localhost:3000");
