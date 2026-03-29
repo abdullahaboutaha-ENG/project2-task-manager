@@ -15,9 +15,29 @@ CREATE TABLE IF NOT EXISTS Tasks (
    completed INTEGER
 )
 `);
-// TEST ROUTE
+
 app.get("/api", (req, res) => {
-   res.json({ message: "API is working" });
+   db.all("SELECT * FROM Tasks", [], (err, rows) => {
+       if (err) {
+           res.status(500).json({ error: err.message });
+           return;
+       }
+       res.json(rows);
+   });
+});
+app.post("/api", (req, res) => {
+   const { title, priority } = req.body;
+   db.run(
+       "INSERT INTO Tasks (title, priority, completed) VALUES (?, ?, 0)",
+       [title, priority],
+       function(err) {
+           if (err) {
+               res.status(500).json({ error: err.message });
+               return;
+           }
+           res.json({ status: `New record created with id=${this.lastID}` });
+       }
+   );
 });
 // start server
 app.listen(3000, () => {
